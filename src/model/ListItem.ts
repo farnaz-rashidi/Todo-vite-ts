@@ -1,4 +1,4 @@
-export interface IListItem {
+interface IListItem {
   id: string;
   name: string;
   checked: boolean;

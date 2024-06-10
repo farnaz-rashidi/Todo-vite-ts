@@ -10,9 +10,8 @@ interface IFullList {
 }
 
 export default class FullList implements IFullList {
-  //singleton pattern: only 1 instance of FullList can exist at a time. We always have 1 instance of FullList.
+  // Enforce singleton pattern: only 1 instance of FullList can exist at a time. We always have 1 instance of FullList.
   private constructor(private _listItems: ListItem[] = []) {}
-
   static instance: FullList = new FullList();
 
   get listItems() {
@@ -20,16 +19,14 @@ export default class FullList implements IFullList {
   }
 
   load(): void {
-    const items = localStorage.getItem("items");
-    if (items) {
-      const parsedItems: { _id: string; _name: string; _checked: boolean }[] =
-        JSON.parse(items);
-      parsedItems.forEach((item) => {
-        const newListItem = new ListItem(item._id, item._name, item._checked);
-        FullList.instance.addItem(newListItem);
-      });
-    }
-    // FullList.instance = this;
+    const items: string | null = localStorage.getItem("items");
+    if (typeof items !== "string") return;
+    const parsedItems: { _id: string; _name: string; _checked: boolean }[] =
+      JSON.parse(items);
+    parsedItems.forEach((item) => {
+      const newListItem = new ListItem(item._id, item._name, item._checked);
+      FullList.instance.addItem(newListItem);
+    });
   }
 
   saveList(): void {

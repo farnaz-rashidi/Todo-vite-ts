@@ -1,28 +1,29 @@
 import FullList from "../model/FullList";
 
-interface DOMList {
+interface IDOMList {
   ul: HTMLUListElement;
   clear(): void;
   render(fullList: FullList): void;
 }
 
-export default class ListTemplate implements DOMList {
+export default class FullListTemplate implements IDOMList {
   ul: HTMLUListElement;
-  // single pattern: only 1 instance of ListTemplate can exist at a time. We always have 1 instance of ListTemplate.
+
+  // Enforce single pattern: only 1 instance of FullListTemplate can exist at a time. We always have 1 instance of FullListTemplate.
   private constructor() {
     this.ul = document.getElementById("listItems") as HTMLUListElement;
   }
+  static instance: FullListTemplate = new FullListTemplate();
 
-  static instance: ListTemplate = new ListTemplate();
-
-  //clears all the HTML inside the ul element
+  // Visually clears all the HTML inside the ul element
   clear(): void {
     this.ul.innerHTML = "";
   }
 
-  //renders the full list of items
+  // Renders the full list of items
   render(fullList: FullList): void {
-    this.clear();
+    this.clear(); //clear the list before rendering to avoid duplicattion
+
     fullList.listItems.forEach((item) => {
       const li = document.createElement("li") as HTMLLIElement;
       li.className = "item";
@@ -30,7 +31,7 @@ export default class ListTemplate implements DOMList {
       const check = document.createElement("input") as HTMLInputElement;
       check.type = "checkbox";
       check.id = item.id; //using getters and setters so no need to use _id
-      check.tabIndex = 0;
+      check.tabIndex = 0; // allows the user to navigate to this element using the Tab key
       check.checked = item.checked; //using getters and setters so no need to use _checked
       li.append(check);
       check.addEventListener("change", () => {

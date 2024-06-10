@@ -1,10 +1,10 @@
 import FullList from "./model/FullList";
 import ListItem from "./model/ListItem";
-import ListTemplate from "./template/ListTemplate";
+import FullListTemplate from "./templates/FullListTemplate";
 
 const initApp = (): void => {
   const fullList = FullList.instance;
-  const template = ListTemplate.instance;
+  const template = FullListTemplate.instance;
 
   const form = document.getElementById("itemEntryForm") as HTMLFormElement;
 
@@ -12,9 +12,7 @@ const initApp = (): void => {
     e.preventDefault();
     const input = document.getElementById("newItem") as HTMLInputElement;
     const newEntryText = input.value.trim();
-    if (!newEntryText.length) {
-      return;
-    }
+    if (!newEntryText) return;
 
     const itemId: number = fullList.listItems.length
       ? parseInt(fullList.listItems[fullList.listItems.length - 1].id) + 1
@@ -34,9 +32,10 @@ const initApp = (): void => {
     fullList.clearList();
     template.clear();
   });
+
   fullList.load();
   template.render(fullList);
 };
 
-//You can also defer inside the html script tag alternatively
+//Alternatively you can defer inside the html script tag
 document.addEventListener("DOMContentLoaded", initApp);

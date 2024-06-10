@@ -6,6 +6,7 @@
   box-sizing: border-box;
 }
 
+/* visually hide elements from the viewport while still keeping them accessible for screen readers for accessibility purposes */
 .offscreen {
   position: absolute;
   left: -10000px;
@@ -104,13 +105,6 @@ section {
   background-color: transparent;
   color: whitesmoke;
   padding: 0.25em;
-}
-
-.listItems {
-  flex-grow: 1;
-  display: flex;
-  flex-flow: column nowrap;
-  list-style-type: none;
 }
 
 .item {
